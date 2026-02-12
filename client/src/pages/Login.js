@@ -11,14 +11,16 @@ function Login() {
     e.preventDefault();
 
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/login", {
-        email,
-        password,
-      });
+      const res = await axios.post(
+        "https://devconnect-server-b0e2.onrender.com/api/auth/login",
+        {
+          email,
+          password,
+        }
+      );
 
       console.log("LOGIN RESPONSE:", res.data);
 
-      // 🔴 IMPORTANT CHECK
       if (!res.data.user) {
         alert("Login failed. No user returned.");
         return;

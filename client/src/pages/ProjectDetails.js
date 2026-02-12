@@ -15,7 +15,9 @@ function ProjectDetails() {
 
   const fetchProject = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/projects/${id}`);
+      const res = await axios.get(
+        `https://devconnect-server-b0e2.onrender.com/api/projects/${id}`
+      );
       setProject(res.data);
     } catch (err) {
       console.log(err);
@@ -38,10 +40,13 @@ function ProjectDetails() {
         className="btn btn-primary mt-3"
         onClick={async () => {
           try {
-            await axios.post("http://localhost:5000/api/join/send", {
-              project_id: id,
-              user_id: user.id,
-            });
+            await axios.post(
+              "https://devconnect-server-b0e2.onrender.com/api/join/send",
+              {
+                project_id: id,
+                user_id: user.id,
+              }
+            );
 
             alert("Join request sent!");
           } catch (err) {
@@ -61,13 +66,13 @@ function ProjectDetails() {
           View Join Requests
         </button>
       )}
-      <button
-  className="btn btn-warning mt-3 ms-3"
-  onClick={() => navigate(`/project/${id}/tasks`)}
->
-  Open Task Board
-</button>
 
+      <button
+        className="btn btn-warning mt-3 ms-3"
+        onClick={() => navigate(`/project/${id}/tasks`)}
+      >
+        Open Task Board
+      </button>
     </div>
   );
 }

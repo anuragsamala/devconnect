@@ -12,27 +12,35 @@ function TaskBoard() {
   }, []);
 
   const fetchTasks = async () => {
-    const res = await axios.get(`http://localhost:5000/api/tasks/${id}`);
+    const res = await axios.get(
+      `https://devconnect-server-b0e2.onrender.com/api/tasks/${id}`
+    );
     setTasks(res.data);
   };
 
   const addTask = async () => {
     if (!newTask) return;
 
-    await axios.post("http://localhost:5000/api/tasks/add", {
-      project_id: id,
-      title: newTask
-    });
+    await axios.post(
+      "https://devconnect-server-b0e2.onrender.com/api/tasks/add",
+      {
+        project_id: id,
+        title: newTask,
+      }
+    );
 
     setNewTask("");
     fetchTasks();
   };
 
   const updateStatus = async (task_id, status) => {
-    await axios.post("http://localhost:5000/api/tasks/update", {
-      task_id,
-      status
-    });
+    await axios.post(
+      "https://devconnect-server-b0e2.onrender.com/api/tasks/update",
+      {
+        task_id,
+        status,
+      }
+    );
 
     fetchTasks();
   };

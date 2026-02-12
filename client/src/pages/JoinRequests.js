@@ -12,7 +12,9 @@ function JoinRequests() {
 
   const fetchRequests = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/join/${id}`);
+      const res = await axios.get(
+        `https://devconnect-server-b0e2.onrender.com/api/join/${id}`
+      );
       setRequests(res.data);
     } catch (err) {
       console.log(err);
@@ -21,10 +23,13 @@ function JoinRequests() {
 
   const accept = async (request_id) => {
     try {
-      await axios.post("http://localhost:5000/api/join/accept", {
-        request_id,
-        role: "Developer"
-      });
+      await axios.post(
+        "https://devconnect-server-b0e2.onrender.com/api/join/accept",
+        {
+          request_id,
+          role: "Developer",
+        }
+      );
 
       alert("Request accepted!");
       fetchRequests();
@@ -35,9 +40,12 @@ function JoinRequests() {
 
   const reject = async (request_id) => {
     try {
-      await axios.post("http://localhost:5000/api/join/reject", {
-        request_id
-      });
+      await axios.post(
+        "https://devconnect-server-b0e2.onrender.com/api/join/reject",
+        {
+          request_id,
+        }
+      );
 
       alert("Request rejected!");
       fetchRequests();

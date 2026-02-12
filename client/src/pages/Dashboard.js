@@ -28,11 +28,11 @@ function Dashboard() {
     }
   }, [loading, user, navigate]);
 
-  // Socket
+  // Socket (use production backend URL)
   useEffect(() => {
     if (!user) return;
 
-    const socket = io("http://localhost:5000");
+    const socket = io("https://devconnect-server-b0e2.onrender.com");
     socket.emit("registerUser", user.id);
 
     socket.on("notification", (data) => {

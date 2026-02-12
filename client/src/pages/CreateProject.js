@@ -13,13 +13,16 @@ function CreateProject() {
 
   const handleCreate = async () => {
     try {
-      await axios.post("http://localhost:5000/api/projects/create", {
-        title,
-        description,
-        required_skills: skills,
-        team_size: teamSize,
-        owner_id: user.id
-      });
+      await axios.post(
+        "https://devconnect-server-b0e2.onrender.com/api/projects/create",
+        {
+          title,
+          description,
+          required_skills: skills,
+          team_size: teamSize,
+          owner_id: user.id,
+        }
+      );
 
       alert("Project created!");
       navigate("/projects");
