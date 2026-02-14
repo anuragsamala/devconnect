@@ -13,10 +13,18 @@ app.use(express.json());
 const authRoutes = require("./routes/auth");
 const projectRoutes = require("./routes/projects");
 const joinRoutes = require("./routes/joinrequests");
+const taskRoutes = require("./routes/tasks");
+const ratingRoutes = require("./routes/ratings");
+const githubRoutes = require("./routes/github");
+const messageRoutes = require("./routes/messages");   // ⭐ NEW
 
 app.use("/api/auth", authRoutes);
 app.use("/api/projects", projectRoutes);
 app.use("/api/join", joinRoutes);
+app.use("/api/tasks", taskRoutes);
+app.use("/api/ratings", ratingRoutes);
+app.use("/api/github", githubRoutes);
+app.use("/api/messages", messageRoutes);              // ⭐ NEW
 
 // Create HTTP server
 const server = http.createServer(app);
@@ -34,24 +42,44 @@ let users = {};
 io.on("connection", (socket) => {
   console.log("User connected:", socket.id);
 
+  // Existing feature
   socket.on("registerUser", (userId) => {
     users[userId] = socket.id;
+  });
+
+  // ⭐ NEW — Join project chat room
+  socket.on("joinProjectRoom", (projectId) => {
+    socket.join(`project_${projectId}`);
+  });
+
+  // ⭐ NEW — Send message
+  socket.on("sendMessage", async ({ projectId, userId, message }) => {
+    try {
+      await pool.query(
+        "INSERT INTO messages (project_id, user_id, message) VALUES ($1,$2,$3)",
+        [projectId, userId, message]
+      );
+
+      io.to(`project_${projectId}`).emit("newMessage", {
+        userId,
+        message,
+      });
+    } catch (err) {
+      console.log(err);
+    }
   });
 
   socket.on("disconnect", () => {
     console.log("User disconnected");
   });
 });
-const taskRoutes = require("./routes/tasks");
-app.use("/api/tasks", taskRoutes);
 
 app.set("io", io);
 app.set("users", users);
-const ratingRoutes = require("./routes/ratings");
-app.use("/api/ratings", ratingRoutes);
-const githubRoutes = require("./routes/github");
-app.use("/api/github", githubRoutes);
 
-server.listen(5000, () => {
-  console.log("Server running on port 5000");
+// ⭐ IMPORTANT — use dynamic port for Render
+const PORT = process.env.PORT || 5000;
+
+server.listen(PORT, () => {
+  console.log("Server running on port", PORT);
 });
