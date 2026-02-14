@@ -13,16 +13,11 @@ function Login() {
     try {
       const res = await axios.post(
         "https://devconnect-server-b0e2.onrender.com/api/auth/login",
-        {
-          email,
-          password,
-        }
+        { email, password }
       );
 
-      console.log("LOGIN RESPONSE:", res.data);
-
       if (!res.data.user) {
-        alert("Login failed. No user returned.");
+        alert("Login failed");
         return;
       }
 
@@ -31,31 +26,38 @@ function Login() {
 
       navigate("/dashboard");
     } catch (err) {
-      console.log(err);
       alert("Invalid credentials");
     }
   };
 
   return (
-    <div className="container mt-5">
-      <h2 className="text-center mb-4">DevConnect Login</h2>
+    <div className="login-bg">
 
-      <div className="card p-4 mx-auto shadow" style={{ maxWidth: "400px" }}>
+      {/* 🌌 Moving star particles layer */}
+      <div className="stars"></div>
+
+      {/* 🌑 Dark overlay */}
+      <div className="overlay"></div>
+
+      {/* ✨ Glowing Login Card */}
+      <div className="login-card">
+        <h2 className="title">DevConnect</h2>
+
         <form onSubmit={handleLogin}>
           <input
-            className="form-control mb-3"
+            className="input"
             placeholder="Email"
             onChange={(e) => setEmail(e.target.value)}
           />
 
           <input
             type="password"
-            className="form-control mb-3"
+            className="input"
             placeholder="Password"
             onChange={(e) => setPassword(e.target.value)}
           />
 
-          <button className="btn btn-primary w-100" type="submit">
+          <button className="login-btn" type="submit">
             Login
           </button>
         </form>
