@@ -16,7 +16,7 @@ const joinRoutes = require("./routes/joinrequests");
 const taskRoutes = require("./routes/tasks");
 const ratingRoutes = require("./routes/ratings");
 const githubRoutes = require("./routes/github");
-const messageRoutes = require("./routes/messages");   // ⭐ NEW
+const messageRoutes = require("./routes/messages");
 
 app.use("/api/auth", authRoutes);
 app.use("/api/projects", projectRoutes);
@@ -24,7 +24,7 @@ app.use("/api/join", joinRoutes);
 app.use("/api/tasks", taskRoutes);
 app.use("/api/ratings", ratingRoutes);
 app.use("/api/github", githubRoutes);
-app.use("/api/messages", messageRoutes);              // ⭐ NEW
+app.use("/api/messages", messageRoutes);
 
 // Create HTTP server
 const server = http.createServer(app);
@@ -47,23 +47,33 @@ io.on("connection", (socket) => {
     users[userId] = socket.id;
   });
 
-  // ⭐ NEW — Join project chat room
+  // Join project chat room
   socket.on("joinProjectRoom", (projectId) => {
     socket.join(`project_${projectId}`);
   });
 
-  // ⭐ NEW — Send message
+  // ⭐ UPDATED — Send message WITH username
   socket.on("sendMessage", async ({ projectId, userId, message }) => {
     try {
+      // Save message to DB
       await pool.query(
         "INSERT INTO messages (project_id, user_id, message) VALUES ($1,$2,$3)",
         [projectId, userId, message]
       );
 
+      // Get username from users table
+      const user = await pool.query(
+        "SELECT name FROM users WHERE id=$1",
+        [userId]
+      );
+
+      // Emit message with username
       io.to(`project_${projectId}`).emit("newMessage", {
         userId,
+        username: user.rows[0].name,
         message,
       });
+
     } catch (err) {
       console.log(err);
     }
@@ -77,7 +87,7 @@ io.on("connection", (socket) => {
 app.set("io", io);
 app.set("users", users);
 
-// ⭐ IMPORTANT — use dynamic port for Render
+// Use dynamic port for Render
 const PORT = process.env.PORT || 5000;
 
 server.listen(PORT, () => {

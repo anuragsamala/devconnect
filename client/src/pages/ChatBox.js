@@ -52,7 +52,8 @@ function ChatBox() {
       >
         {messages.map((m, i) => (
           <div key={i} className="mb-2">
-            <b>User {m.userId || m.user_id}:</b> {m.message}
+            <b>{m.username || m.name}:</b>
+{m.message}
           </div>
         ))}
       </div>
