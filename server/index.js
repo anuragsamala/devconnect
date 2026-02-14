@@ -86,7 +86,8 @@ io.on("connection", (socket) => {
 
 app.set("io", io);
 app.set("users", users);
-
+const matchRoutes = require("./routes/match");
+app.use("/api/match", matchRoutes);
 // Use dynamic port for Render
 const PORT = process.env.PORT || 5000;
 
