@@ -8,6 +8,7 @@ import ProjectDetails from "./pages/ProjectDetails";
 import JoinRequests from "./pages/JoinRequests";
 import TaskBoard from "./pages/TaskBoard";
 import Navbar from "./components/Navbar";
+import ChatBox from "./pages/ChatBox";
 
 function AppContent() {
   const location = useLocation();
@@ -25,6 +26,8 @@ function AppContent() {
         <Route path="/project/:id" element={<ProjectDetails />} />
         <Route path="/project/:id/requests" element={<JoinRequests />} />
         <Route path="/project/:id/tasks" element={<TaskBoard />} />
+        <Route path="/project/:id/chat" element={<ChatBox />} />
+
       </Routes>
     </>
   );

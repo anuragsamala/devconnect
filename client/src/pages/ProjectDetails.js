@@ -67,11 +67,20 @@ function ProjectDetails() {
         </button>
       )}
 
+      {/* Task Board Button */}
       <button
         className="btn btn-warning mt-3 ms-3"
         onClick={() => navigate(`/project/${id}/tasks`)}
       >
         Open Task Board
+      </button>
+
+      {/* ⭐ NEW — Chat Button */}
+      <button
+        className="btn btn-info mt-3 ms-3"
+        onClick={() => navigate(`/project/${id}/chat`)}
+      >
+        Open Chat
       </button>
     </div>
   );
