@@ -61,6 +61,18 @@ function Login() {
             Login
           </button>
         </form>
+
+        {/* Signup option */}
+        <p className="text-light text-center mt-3">
+          Don't have an account?{" "}
+          <span
+            style={{ color: "#00f5ff", cursor: "pointer" }}
+            onClick={() => navigate("/register")}
+          >
+            Sign Up
+          </span>
+        </p>
+
       </div>
     </div>
   );
