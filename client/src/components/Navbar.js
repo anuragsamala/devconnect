@@ -65,12 +65,7 @@ function Navbar() {
             Create
           </button>
 
-          <button
-            className="btn btn-outline-light me-2"
-            onClick={() => navigate("/profile")}
-          >
-            Profile
-          </button>
+          
 
           <button className="btn btn-danger" onClick={logout}>
             Logout

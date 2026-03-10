@@ -28,6 +28,7 @@ router.post("/register", async (req, res) => {
     );
 
     res.json({ message: "User registered successfully" });
+
   } catch (err) {
     res.json({ error: err.message });
   }
@@ -61,9 +62,46 @@ router.post("/login", async (req, res) => {
       JWT_SECRET
     );
 
-    res.json({ token, user: user.rows[0] });
+    res.json({
+      token,
+      user: {
+        id: user.rows[0].id,
+        name: user.rows[0].name,
+        email: user.rows[0].email
+      }
+    });
+
   } catch (err) {
     res.json({ error: err.message });
+  }
+});
+
+// GET PROFILE (logged-in user)
+router.get("/profile", async (req, res) => {
+  try {
+
+    const authHeader = req.headers["authorization"];
+    const token = authHeader && authHeader.split(" ")[1];
+
+    if (!token) {
+      return res.status(401).json({ message: "Token missing" });
+    }
+
+    const decoded = jwt.verify(token, JWT_SECRET);
+
+    const user = await pool.query(
+      "SELECT id, name, email FROM users WHERE id=$1",
+      [decoded.id]
+    );
+
+    if (user.rows.length === 0) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json(user.rows[0]);
+
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 

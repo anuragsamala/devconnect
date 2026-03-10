@@ -3,7 +3,7 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Projects from "./pages/Projects";
 import CreateProject from "./pages/CreateProject";
-import Profile from "./pages/Profile";
+
 import ProjectDetails from "./pages/ProjectDetails";
 import JoinRequests from "./pages/JoinRequests";
 import TaskBoard from "./pages/TaskBoard";
@@ -22,7 +22,7 @@ function AppContent() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/projects" element={<Projects />} />
         <Route path="/create" element={<CreateProject />} />
-        <Route path="/profile" element={<Profile />} />
+        
         <Route path="/project/:id" element={<ProjectDetails />} />
         <Route path="/project/:id/requests" element={<JoinRequests />} />
         <Route path="/project/:id/tasks" element={<TaskBoard />} />

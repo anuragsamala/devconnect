@@ -29,7 +29,7 @@ function Dashboard() {
     }
   }, [loading, user, navigate]);
 
-  // Socket
+  // Socket connection
   useEffect(() => {
     if (!user) return;
 
@@ -99,7 +99,7 @@ function Dashboard() {
 
         {/* Action Buttons */}
         <div className="row">
-          <div className="col-md-4">
+          <div className="col-md-6">
             <button
               className="dash-btn primary"
               onClick={() => navigate("/projects")}
@@ -108,21 +108,12 @@ function Dashboard() {
             </button>
           </div>
 
-          <div className="col-md-4">
+          <div className="col-md-6">
             <button
               className="dash-btn success"
               onClick={() => navigate("/create")}
             >
               Create Project
-            </button>
-          </div>
-
-          <div className="col-md-4">
-            <button
-              className="dash-btn dark"
-              onClick={() => navigate("/profile")}
-            >
-              Profile
             </button>
           </div>
         </div>
